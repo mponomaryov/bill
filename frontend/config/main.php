@@ -15,6 +15,16 @@ return [
         'request' => [
             'csrfParam' => '_csrf-frontend',
         ],
+        'response' => [
+            'formatters' => [
+                'html' => [
+                    'class' => 'yii\web\HtmlResponseFormatter',
+                ],
+                'pdf' => [
+                    'class' => 'robregonm\pdf\PdfResponseFormatter',
+                ],
+            ],
+        ],
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,

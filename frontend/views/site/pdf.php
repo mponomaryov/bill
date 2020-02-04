@@ -3,11 +3,18 @@
 /* @var $this yii\web\View */
 /* @var $model \frontend\models\forms\RequisitesForm */
 
+use yii\helpers\StringHelper;
+
+use frontend\helpers\PriceHelper;
+
 $this->title = '';
+
+$dummyPrice = 999;
+$totalPrice = $model->quantity * $dummyPrice;
 ?>
 <div style="width: 800px">
 <table class="table">
-    <caption class="table__caption">счет № xxx от 14.12.2111</caption>
+    <caption class="table__caption table__caption_align_center">счет № xxx от 14.12.2111</caption>
     <tbody>
         <tr>
             <td class="table__cell table__cell_width_quarter">ИНН 772160030650</td>
@@ -37,7 +44,6 @@ $this->title = '';
         </tr>
     </tbody>
 </table>
-<hr>
 <?php foreach (['Плательщик', 'Получатель'] as $title): ?>
     <p>
         <?= $title ?>: <?= $model->name ?>, ИНН
@@ -60,27 +66,55 @@ $this->title = '';
         <tr>
             <td class="table__cell">1</td>
             <td class="table__cell">Элефантус вульгарис</td>
-            <td class="table__cell">1</td>
+            <td class="table__cell">
+                <?= $model->quantity ?>
+            </td>
             <td class="table__cell">шт.</td>
-            <td class="table__cell" colspan="2">
-                <?= $model->sum ?>
+            <td class="table__cell">
+                <?= $dummyPrice ?>
+            </td>
+            <td class="table__cell">
+                <?= $totalPrice ?>
             </td>
         </tr>
         <tr>
-            <td class="table__cell table__cell_text-align_right" colspan="5">Итого:</td>
-            <td><?= $model->sum ?></td>
+            <td class="table__cell
+                       table__cell_border_none
+                       table__cell_text-align_right"
+                colspan="5"
+            >
+                Итого:
+            </td>
+            <td class="table__cell"><?= $totalPrice ?></td>
         </tr>
         <tr>
-            <td class="table__cell table__cell_text-align_right" colspan="5">В том числе НДС (20%):</td>
-            <td><?= $model->sum * 0.2 ?></td>
+            <td class="table__cell
+                       table__cell_border_none
+                       table__cell_text-align_right"
+                colspan="5"
+            >
+                В том числе НДС (20%):
+            </td>
+            <td class="table__cell"><?= $totalPrice * 0.2 ?></td>
         </tr>
         <tr>
-            <td class="table__cell table__cell_text-align_right" colspan="5">Всего к оплате:</td>
-            <td><?= $model->sum ?></td>
+            <td class="table__cell
+                       table__cell_border_none
+                       table__cell_text-align_right"
+                colspan="5"
+            >
+                    Всего к оплате:
+            </td>
+            <td class="table__cell"><?= $totalPrice ?></td>
         </tr>
     </tbody>
 </table>
-<hr>
+<p>
+    Всего наименований 1, на сумму <?= $totalPrice ?>
+</p>
+<p>
+    <b><?= StringHelper::mb_ucfirst(PriceHelper::price2Str($totalPrice)) ?></b>
+</p>
 <div>
     <p>Индивидуальный предприниматель:</p>
     <p>Пупкин В.В.</p>

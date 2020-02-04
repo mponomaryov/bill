@@ -42,7 +42,7 @@ class RequisitesForm extends Model
     public $bankName;
     public $correspondingAccount;
     public $bic;
-    public $sum;
+    public $quantity;
 
     /**
      * {@inheritdoc}
@@ -61,13 +61,13 @@ class RequisitesForm extends Model
         }";
 
         return [
-            [['name', 'address', 'itn', 'iec', 'currentAccount', 'bankName', 'correspondingAccount', 'bic', 'sum'], 'trim'],
-            [['name', 'address', 'itn', 'currentAccount', 'bankName', 'correspondingAccount', 'bic', 'sum'], 'required'],
+            [['name', 'address', 'itn', 'iec', 'currentAccount', 'bankName', 'correspondingAccount', 'bic', 'quantity'], 'trim'],
+            [['name', 'address', 'itn', 'currentAccount', 'bankName', 'correspondingAccount', 'bic', 'quantity'], 'required'],
             [['itn', 'currentAccount', 'correspondingAccount', 'bic'], 'match', 'pattern' => $allDigits, 'message' => $allDigitsMessage],
             [['currentAccount', 'correspondingAccount'], 'string', 'min' => 20, 'max' => 20],
             ['bic', 'string', 'min' => 9, 'max' => 9],
-            ['sum', 'integer', 'min' => 1],
-            ['sum', 'default', 'value' => 1],
+            ['quantity', 'integer', 'min' => 1],
+            ['quantity', 'default', 'value' => 1],
             ['itn', ItnLengthValidator::className()],
             ['iec', 'required', 'when' => $isIecRequired, 'whenClient' => $whenIecRequiredClient],
             ['iec', 'match', 'pattern' => $allDigits, 'message' => $allDigitsMessage],

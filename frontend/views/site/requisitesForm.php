@@ -87,7 +87,7 @@ $form = ActiveForm::begin(['id' => $formId]);
             <td class="table__cell">1</td>
             <td class="table__cell">шт.</td>
             <td class="table__cell" colspan="2">
-                <?= $form->field($model, 'sum')->textInput(['type' => 'number', 'value' => 1, 'min' => 1, 'form' => $formId])->label(false) ?>
+                <?= $form->field($model, 'quantity')->textInput(['type' => 'number', 'value' => 1, 'min' => 1, 'form' => $formId])->label(false) ?>
             </td>
         </tr>
     </tbody>

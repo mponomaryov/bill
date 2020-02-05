@@ -54,14 +54,14 @@ class Bill extends ActiveRecord
                 'bill_number',
                 'default',
                 'value' => new Expression('get_next_bill_number()'),
-                'setOnEmpty' => false,
+                'skipOnEmpty' => false,
                 'on' => 'insert',
             ],
             [  // Not processed without explicit validation call
                 'created_at',
                 'default',
                 'value' => new Expression('CURRENT_DATE()'),
-                'setOnEmpty' => false,
+                'skipOnEmpty' => false,
                 'on' => 'insert',
             ],
             [

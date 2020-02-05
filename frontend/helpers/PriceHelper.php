@@ -8,7 +8,7 @@ class PriceHelper
     public static function price2Str($price)
     {
         $whole = (int) $price;
-        $fractional = (int) (fmod($price, 1) * 100);
+        $fractional = (int) (round(fmod($price, 1), 2) * 100);
 
         $patterns = [
             'whole' => [

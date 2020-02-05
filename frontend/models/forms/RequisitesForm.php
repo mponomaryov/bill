@@ -5,6 +5,10 @@ use Yii;
 use yii\base\Model;
 use yii\validators\Validator;
 
+use common\models\Bill;
+use common\models\Organization;
+use common\models\BillItem;
+
 class ItnLengthValidator extends Validator
 {
     public $message = 'length must be 10 or 12 symbols';
@@ -91,5 +95,53 @@ class RequisitesForm extends Model
             'correspondingAccount' => 'Кор. счет',
             'bic' => 'БИК',
         ];
+    }
+
+    public function createBill()
+    {
+        /* A minute of shitty code */
+
+        if (!$this->validate()) {
+            return;
+        }
+
+        $organization = Organization::findOne([
+            'name' => $this->name,
+            'address' => $this->address,
+            'itn' => $this->itn,
+            'iec' => $this-> iec,
+            'current_account' => $this->currentAccount,
+            'bank' => $this->bankName,
+            'corresponding_account' => $this->correspondingAccount,
+            'bic' => $this->bic,
+        ]);
+
+        if (!$organization) {
+            $organization = new Organization();
+            
+            $organization->name = $this->name;
+            $organization->address = $this->address;
+            $organization->itn = $this->itn;
+            $organization->iec = $this->iec;
+            $organization->current_account = $this->currentAccount;
+            $organization->bank = $this->bankName;
+            $organization->corresponding_account = $this->correspondingAccount;
+            $organization->bic = $this->bic;
+
+            $organization->save();
+        }
+
+        $bill = new Bill();
+        $bill->setDefaultValues();
+        $bill->link('payer', $organization);
+
+        $stubBillItem = new BillItem();
+        $stubBillItem->item_id = 1;
+        $stubBillItem->quantity = $this->quantity;
+
+        $bill->link('billItems', $stubBillItem);
+        $bill->refresh();
+
+        return $bill;
     }
 }

@@ -2,8 +2,6 @@
 namespace frontend\controllers;
 
 use Yii;
-use yii\base\InvalidArgumentException;
-use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -70,8 +68,14 @@ class SiteController extends Controller
         $model = new RequisitesForm();
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            Yii::$app->response->format = 'pdf';
-            return $this->render('pdf', ['model' => $model]);
+            $bill = $model->createBill();
+
+            if ($bill) {
+                Yii::$app->response->format = 'pdf';
+                return $this->render('pdf', ['model' => $bill]);
+            }
+
+            throw new \yii\web\ServerErrorHttpException;
         }
 
         return $this->render('requisitesForm', ['model' => $model]);

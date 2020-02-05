@@ -1,20 +1,20 @@
 <?php
 
 /* @var $this yii\web\View */
-/* @var $model \frontend\models\forms\RequisitesForm */
+/* @var $model \common\models\Bill */
 
 use yii\helpers\StringHelper;
 
 use frontend\helpers\PriceHelper;
 
 $this->title = '';
-
-$dummyPrice = 999;
-$totalPrice = $model->quantity * $dummyPrice;
 ?>
 <div style="width: 800px">
 <table class="table">
-    <caption class="table__caption table__caption_align_center">счет № xxx от 14.12.2111</caption>
+    <caption class="table__caption table__caption_align_center">
+        Счет № <?= sprintf('%\'05d', $model->bill_number) ?>
+        от <?= Yii::$app->formatter->asDate($model->created_at, 'dd.MM.yyyy') ?>
+    </caption>
     <tbody>
         <tr>
             <td class="table__cell table__cell_width_quarter">ИНН 772160030650</td>
@@ -40,15 +40,15 @@ $totalPrice = $model->quantity * $dummyPrice;
         </tr>
         <tr>
             <td class="table__cell">СЧ №</td>
-            <td class="table__cell table__cell_top-border_none">301001810600000000999</td>
+            <td class="table__cell table__cell_top-border_none">30100181060000000999</td>
         </tr>
     </tbody>
 </table>
 <?php foreach (['Плательщик', 'Получатель'] as $title): ?>
     <p>
-        <?= $title ?>: <?= $model->name ?>, ИНН
-        <?= implode('/', array_filter([$model->itn, $model->iec])) ?>,
-        <?= $model->address ?>
+        <?= $title ?>: <?= $model->payer->name ?>, ИНН
+        <?= implode('/', array_filter([$model->payer->itn, $model->payer->iec])) ?>,
+        <?= $model->payer->address ?>
     </p>
 <?php endforeach ?>
 <table class="table">
@@ -63,15 +63,42 @@ $totalPrice = $model->quantity * $dummyPrice;
         </tr>
     </thead>
     <tbody>
+
+        <?php
+            $index = 0;
+            $totalPrice = 0;
+
+            foreach ($model->billItems as $billItem):
+                $index++;
+                $totalPrice += $billItem->itemTotalPrice;
+        ?>
+            <tr>
+                <td class="table__cell">
+                    <?= $index ?>
+                </td>
+                <td class="table__cell">
+                    <?= $billItem->item->name ?>
+                </td>
+                <td class="table__cell">
+                    <?= $billItem->quantity ?>
+                </td>
+                <td class="table__cell">шт.</td>
+                <td class="table__cell">
+                    <?= $billItem->item->price ?>
+                </td>
+                <td class="table__cell">
+                    <?= $billItem->itemTotalPrice ?>
+                </td>
+            </tr>
+        <?php endforeach ?>
+
         <tr>
-            <td class="table__cell">1</td>
-            <td class="table__cell">Элефантус вульгарис</td>
-            <td class="table__cell">
-                <?= $model->quantity ?>
-            </td>
-            <td class="table__cell">шт.</td>
-            <td class="table__cell">
-                <?= $dummyPrice ?>
+            <td class="table__cell
+                       table__cell_border_none
+                       table__cell_text-align_right"
+                colspan="5"
+            >
+                Итого:
             </td>
             <td class="table__cell">
                 <?= $totalPrice ?>
@@ -83,19 +110,11 @@ $totalPrice = $model->quantity * $dummyPrice;
                        table__cell_text-align_right"
                 colspan="5"
             >
-                Итого:
-            </td>
-            <td class="table__cell"><?= $totalPrice ?></td>
-        </tr>
-        <tr>
-            <td class="table__cell
-                       table__cell_border_none
-                       table__cell_text-align_right"
-                colspan="5"
-            >
                 В том числе НДС (20%):
             </td>
-            <td class="table__cell"><?= $totalPrice * 0.2 ?></td>
+            <td class="table__cell">
+                <?= round($totalPrice * 0.2, 2) ?>
+            </td>
         </tr>
         <tr>
             <td class="table__cell
@@ -105,7 +124,9 @@ $totalPrice = $model->quantity * $dummyPrice;
             >
                     Всего к оплате:
             </td>
-            <td class="table__cell"><?= $totalPrice ?></td>
+            <td class="table__cell">
+                <?= $totalPrice ?>
+            </td>
         </tr>
     </tbody>
 </table>

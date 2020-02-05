@@ -29,15 +29,23 @@ $this->beginPage();
                 caption-side: bottom;
             }
 
+            .table__caption_align_center {
+                text-align: center;
+            }
+
             .table__cell {
                 padding-left: 5px;
                 padding-right: 5px;
                 height: 40px;
-                border: 1px black solid;
+                border: 1px solid black;
             }
 
             .table__cell_width_quarter {
                 width: 25%;
+            }
+
+            .table__cell_border_none {
+                border: none;
             }
 
             .table__cell_top-border_none {

@@ -5,8 +5,6 @@
 
 use yii\helpers\StringHelper;
 
-use frontend\helpers\PriceHelper;
-
 $this->title = '';
 ?>
 <div style="width: 800px">
@@ -134,7 +132,11 @@ $this->title = '';
     Всего наименований 1, на сумму <?= $totalPrice ?>
 </p>
 <p>
-    <b><?= StringHelper::mb_ucfirst(PriceHelper::price2Str($totalPrice)) ?></b>
+    <b>
+        <?= StringHelper::mb_ucfirst(
+            Yii::$app->formatter->asPriceInWords($totalPrice)
+        ) ?>
+    </b>
 </p>
 <div>
     <p>Индивидуальный предприниматель:</p>

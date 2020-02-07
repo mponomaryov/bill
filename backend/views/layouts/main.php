@@ -3,12 +3,13 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-use backend\assets\AppAsset;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
+
 use common\widgets\Alert;
+use backend\assets\AppAsset;
 
 AppAsset::register($this);
 ?>
@@ -41,6 +42,9 @@ AppAsset::register($this);
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     } else {
+        $menuItems[] = ['label' => 'Bills', 'url' => ['/bill/index']];
+        $menuItems[] = ['label' => 'Organizations', 'url' => ['/organization/index']];
+        $menuItems[] = ['label' => 'Items', 'url' => ['/item/index']];
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')
             . Html::submitButton(

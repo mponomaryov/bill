@@ -78,6 +78,6 @@ class SiteController extends Controller
             throw new \yii\web\ServerErrorHttpException;
         }
 
-        return $this->render('requisitesForm', ['model' => $model]);
+        return $this->render('index', ['model' => $model]);
     }
 }

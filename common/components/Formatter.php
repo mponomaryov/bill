@@ -58,4 +58,13 @@ class Formatter extends \ yii\i18n\Formatter
 
         return $this->asInteger($value, $options, $textOptions);
     }
+
+    public function asMoney($value)
+    {
+        if ($value === null) {
+            return $this->nullDisplay;
+        }
+
+        return $this->asDecimal($value, 2);
+    }
 }

@@ -13,7 +13,7 @@ use frontend\models\forms\RequisitesForm;
  */
 class SiteController extends Controller
 {
-    public $layout = 'custom';
+    public $layout = 'index';
 
     /**
      * {@inheritdoc}

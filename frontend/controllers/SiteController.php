@@ -11,8 +11,6 @@ use frontend\models\forms\RequisitesForm;
  */
 class SiteController extends Controller
 {
-    public $layout = 'index';
-
     /**
      * {@inheritdoc}
      */
@@ -32,6 +30,8 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        $this->layout = 'index';
+
         $model = new RequisitesForm();
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {

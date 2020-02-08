@@ -2,7 +2,7 @@
 
 use yii\helpers\ArrayHelper;
 
-$this->beginContent('@frontend/views/layouts/custom.php');
+$this->beginContent('@frontend/views/layouts/main.php');
 ?>
 
 <div style="width: 800px">

@@ -5,20 +5,25 @@ use yii\helpers\ArrayHelper;
 $this->beginContent('@frontend/views/layouts/main.php');
 ?>
 
-<div style="width: 800px">
-    <table class="table">
+<div class="page">
+    <table class="table page__block">
         <caption class="table__caption
-                        table__caption_align_center">
+                        table__caption--bottom
+                        table__caption--align_center">
             <?= ArrayHelper::getValue($this, 'blocks.table-caption', '') ?>
         </caption>
+        <colgroup>
+            <col width="25%">
+            <col width="25%">
+            <col width="10%">
+            <col width="40%">
+        </colgroup>
         <tbody>
-            <tr>
-                <td class="table__cell
-                           table__cell_width_quarter">
+            <tr class="table__row">
+                <td class="table__cell">
                     ИНН 772160030650
                 </td>
-                <td class="table__cell
-                           table__cell_width_quarter">
+                <td class="table__cell">
                     КПП
                 </td>
                 <td rowspan="2" class="table__cell">
@@ -28,14 +33,14 @@ $this->beginContent('@frontend/views/layouts/main.php');
                     40802810808270000232
                 </td>
             </tr>
-            <tr>
+            <tr class="table__row">
                 <td colspan="2" class="table__cell">
                     Получатель
                     <br>
-                    ИП Пупкин Василий Васильевич
+                    ИП Фамилия Имя Отчество
                 </td>
             </tr>
-            <tr>
+            <tr class="table__row">
                 <td rowspan="2" colspan="2" class="table__cell">
                     Банк получателя
                     <br>
@@ -46,16 +51,16 @@ $this->beginContent('@frontend/views/layouts/main.php');
                     БИК
                 </td>
                 <td class="table__cell
-                           table__cell_bottom-border_none">
+                           table__cell--bottom-border_none">
                     044583999
                 </td>
             </tr>
-            <tr>
+            <tr class="table__row">
                 <td class="table__cell">
                     СЧ №
                 </td>
                 <td class="table__cell
-                           table__cell_top-border_none">
+                           table__cell--top-border_none">
                     30100181060000000999
                 </td>
             </tr>

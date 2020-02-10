@@ -14,14 +14,31 @@ $this->title = 'Requisites';
     Счет № 00017 от <?= date('Y') ?>
 <?php $this->endBlock(); ?>
 
-<hr>
+<hr class="line page__block">
 
 <?php
 $formId = 'requisites-form';
-$form = ActiveForm::begin(['id' => $formId]);
+$form = ActiveForm::begin([
+    'id' => $formId,
+    'options' => ['class' => 'form page__block'],
+    'fieldClass' => 'frontend\components\ActiveField',
+    'fieldConfig' => [
+        'options' => ['class' => 'form__group'],
+        'labelOptions' => ['class' => 'form__label form__group--area-label'],
+        'inputOptions' => ['class' => 'form__input form__group--area-input'],
+        'errorOptions' => ['class' => 'form__info form__group--area-info'],
+        'template' => "{label}\n{input}\n{error}",
+    ],
+]);
 ?>
-    <fieldset class="fieldset">
-        <legend>Заполните данные плательщика:</legend>
+    <fieldset class="fieldset
+                     form__fieldset
+                     grid
+                     grid--two-columns
+                     grid--column-gap_10px">
+        <legend class="fieldset__legend">
+            Заполните данные плательщика:
+        </legend>
 
         <?= $form->field($model, 'name')->textInput([
             'autofocus' => true,
@@ -59,9 +76,10 @@ $form = ActiveForm::begin(['id' => $formId]);
     </fieldset>
 <?php ActiveForm::end(); ?>
 
-<table class="table">
+<table class="table page__block">
     <thead>
-        <tr>
+        <tr class="table__row
+                   table__row--height_auto">
             <th class="table__cell">
                 №
             </th>
@@ -83,12 +101,12 @@ $form = ActiveForm::begin(['id' => $formId]);
         </tr>
     </thead>
     <tbody>
-        <tr>
+        <tr class="table__row">
             <td class="table__cell">
                 1
             </td>
             <td class="table__cell">
-                Элефантус вульгарис
+                Товар/работа/услуга
             </td>
             <td class="table__cell">
                 1
@@ -108,17 +126,21 @@ $form = ActiveForm::begin(['id' => $formId]);
     </tbody>
 </table>
 
-<hr>
+<hr class="line page__block">
 
-<div>
+<div class="page__block
+            grid
+            grid--two-columns">
     <p>Индивидуальный предприниматель:</p>
-    <p>Пупкин В.В.</p>
-    <?= Html::img(Yii::getAlias('@web' . '/stamp.png')) ?>
-</div>
-<div>
-    <?= Html::submitButton('Сохранить и скачать', [
-        'class' => 'btn btn-primary',
-        'name' => 'save-button',
-        'form' => $formId
-    ]) ?>
+    <p>
+        Фамилия И.О.
+        <?= Html::img(Yii::getAlias('@web' . '/stamp.png')) ?>
+    </p>
+    <div>
+        <?= Html::submitButton('Сохранить и скачать', [
+            'class' => 'button button--rounded',
+            'name' => 'save-button',
+            'form' => $formId
+        ]) ?>
+    </div>
 </div>

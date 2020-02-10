@@ -1,0 +1,18 @@
+.button {
+    display: inline-block;
+    padding:  9px 21px;
+    border: none;
+    color: white;
+    background: #31a2d9;
+    font-weight: 300;
+    text-align: center;
+    text-decoration: none;
+}
+
+.button:hover {
+    background: rgba(49, 162, 217, 0.8);
+}
+
+.button--rounded {
+    border-radius: 20px;
+}

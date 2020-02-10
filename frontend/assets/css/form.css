@@ -1,0 +1,45 @@
+.form {
+}
+
+.form__fieldset {
+    margin: 0;
+}
+
+.form__group {
+    display: grid;
+    grid-template-areas:
+        "label input"
+        "info info";
+    grid-template-columns: 100px 1fr;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.form__group--area-label {
+    grid-area: label;
+}
+
+.form__group--area-input {
+    grid-area: input;
+}
+
+.form__group--area-info {
+    grid-area: info;
+}
+
+.form__label {
+    box-sizing: border-box;
+    color: #686868;
+    font-weight: bold;
+}
+
+.form__input {
+    padding: 6px 12px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.form__info {
+    display: none;
+}

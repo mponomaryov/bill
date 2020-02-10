@@ -1,0 +1,17 @@
+.page {
+    margin: 40px auto;
+    padding: 40px;
+    width: 980px;
+    box-sizing: border-box;
+    border: 1px solid #31a2d9;
+}
+
+.page-block:first-child {
+    margin-top: 0;
+}
+
+.page-block {
+    margin-top: 40px;
+    width: 100%;
+    box-sizing: border-box;
+}

@@ -1,0 +1,12 @@
+.fieldset {
+    padding: 0;
+    box-sizing: border-box;
+    border: none;
+}
+
+.fieldset__legend {
+    padding: 0;
+    color: red;
+    font-weight: 300;
+    font-size: 21px;
+}

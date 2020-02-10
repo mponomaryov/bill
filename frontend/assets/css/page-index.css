@@ -6,11 +6,11 @@
     border: 1px solid #31a2d9;
 }
 
-.page-block:first-child {
+.page__block:first-child {
     margin-top: 0;
 }
 
-.page-block {
+.page__block {
     margin-top: 40px;
     width: 100%;
     box-sizing: border-box;

@@ -29,10 +29,18 @@
     border: 1px solid black;
 }
 
+.table__cell--border_none {
+    border: none;
+}
+
 .table__cell--top-border_none {
     border-top: none;
 }
 
 .table__cell--bottom-border_none {
     border-bottom: none;
+}
+
+.table__cell--align_right {
+    text-align: right;
 }

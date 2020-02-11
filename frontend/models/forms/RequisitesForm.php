@@ -94,6 +94,7 @@ class RequisitesForm extends Model
             'bankName' => 'Банк',
             'correspondingAccount' => 'Кор. счет',
             'bic' => 'БИК',
+            'quantity' => 'Количество',
         ];
     }
 

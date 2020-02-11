@@ -14,7 +14,7 @@ class AppAsset extends AssetBundle
         'forceCopy' => true,
     ];
     public $css = [
-        'css/page-index.css',
+        'css/page.css',
         'css/table.css',
         'css/line.css',
         'css/fieldset.css',

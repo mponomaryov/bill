@@ -9,7 +9,7 @@
     display: grid;
     grid-template-areas:
         "label input"
-        "info info";
+        "..... info";
     grid-template-columns: 100px 1fr;
     align-items: center;
     margin-top: 10px;
@@ -42,4 +42,19 @@
 
 .form__info {
     display: none;
+}
+
+/* Have no idea how to avoid cascading here */
+
+.form__group--has-success .form__input {
+    border-color: green;
+}
+
+.form__group--has-error .form__input {
+    border-color: red;
+}
+
+.form__group--has-error .form__info {
+    display: block;
+    color: red;
 }

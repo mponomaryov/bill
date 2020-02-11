@@ -22,6 +22,8 @@ $form = ActiveForm::begin([
     'id' => $formId,
     'options' => ['class' => 'form page__block'],
     'fieldClass' => 'frontend\components\ActiveField',
+    'successCssClass' => 'form__group--has-success',
+    'errorCssClass' => 'form__group--has-error',
     'fieldConfig' => [
         'options' => ['class' => 'form__group'],
         'labelOptions' => ['class' => 'form__label form__group--area-label'],

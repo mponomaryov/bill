@@ -42,6 +42,8 @@
 
 .form__info {
     display: none;
+    margin: 0;
+    font-size: 12px;
 }
 
 /* Have no idea how to avoid cascading here */

@@ -16,10 +16,11 @@ class AppAsset extends AssetBundle
     public $css = [
         'css/page.css',
         'css/table.css',
-        'css/line.css',
-        'css/fieldset.css',
         'css/form.css',
+        'css/fieldset.css',
         'css/grid.css',
+        'css/stamp-place.css',
+        'css/line.css',
         'css/button.css',
     ];
     public $js = [

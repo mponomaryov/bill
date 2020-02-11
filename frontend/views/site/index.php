@@ -130,19 +130,23 @@ $form = ActiveForm::begin([
 
 <hr class="line page__block">
 
-<div class="page__block
-            grid
-            grid--two-columns">
-    <p>Индивидуальный предприниматель:</p>
-    <p>
-        Фамилия И.О.
-        <?= Html::img(Yii::getAlias('@web' . '/stamp.png')) ?>
+<div class="stamp-place
+            page__block">
+    <p class="stamp-place__field">
+        Индивидуальный предприниматель:
     </p>
-    <div>
-        <?= Html::submitButton('Сохранить и скачать', [
-            'class' => 'button button--rounded',
-            'name' => 'save-button',
-            'form' => $formId
-        ]) ?>
-    </div>
+    <p class="stamp-place__value">
+        Фамилия И.О.
+    </p>
+    <?= Html::img(Yii::getAlias('@web' . '/stamp.png'), [
+        'class' => 'stamp-place__stamp stamp-place__stamp--align_right'
+    ]) ?>
+</div>
+
+<div>
+    <?= Html::submitButton('Сохранить и скачать', [
+        'class' => 'button button--rounded',
+        'name' => 'save-button',
+        'form' => $formId
+    ]) ?>
 </div>

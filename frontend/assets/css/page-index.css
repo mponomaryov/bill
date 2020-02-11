@@ -6,12 +6,12 @@
     border: 1px solid #31a2d9;
 }
 
-.page__block:first-child {
-    margin-top: 0;
-}
-
 .page__block {
     margin-top: 40px;
     width: 100%;
     box-sizing: border-box;
+}
+
+.page__block--top-margin_0 {
+    margin-top: 0;
 }

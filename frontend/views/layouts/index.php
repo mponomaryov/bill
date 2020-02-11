@@ -6,7 +6,9 @@ $this->beginContent('@frontend/views/layouts/main.php');
 ?>
 
 <div class="page">
-    <table class="table page__block">
+    <table class="table
+                  page__block
+                  page__block--top-margin_0">
         <caption class="table__caption
                         table__caption--bottom
                         table__caption--align_center">

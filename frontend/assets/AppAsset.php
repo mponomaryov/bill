@@ -14,8 +14,6 @@ class AppAsset extends AssetBundle
         'forceCopy' => true,
     ];
     public $css = [
-        'css/site.css',
-
         'css/page-index.css',
         'css/table.css',
         'css/line.css',
@@ -28,6 +26,5 @@ class AppAsset extends AssetBundle
     ];
     public $depends = [
         'yii\web\YiiAsset',
-        'yii\bootstrap\BootstrapAsset',
     ];
 }

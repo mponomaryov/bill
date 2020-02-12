@@ -1,0 +1,13 @@
+.text-block {
+    box-sizing: border-box;
+    color: #686868;
+}
+
+.text-block__paragraph {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+.text-block__paragraph--bold {
+    font-weight: bold;
+}

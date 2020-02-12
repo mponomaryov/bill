@@ -1,0 +1,13 @@
+.page {
+    box-sizing: border-box;
+}
+
+.page__block {
+    box-sizing: border-box;
+    margin-top: 40px;
+    width: 100%;
+}
+
+.page__block--top-margin_0 {
+    margin-top: 0;
+}

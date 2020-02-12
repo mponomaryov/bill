@@ -1,0 +1,29 @@
+.stamp-place {
+    box-sizing: border-box;
+    color: #686868;
+    font-size: 14px;
+}
+
+.stamp-place__field {
+    margin: 0;
+    width: 60%;
+    box-sizing: border-box;
+    float: left;
+}
+
+.stamp-place__value {
+    margin: 0;
+    width: 39%;
+    text-align: center;
+    box-sizing: border-box;
+    float: left;
+}
+
+.stamp-place__stamp {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.stamp-place__stamp--align_right {
+    float: right;
+}

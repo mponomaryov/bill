@@ -18,6 +18,10 @@ use yii\db\ActiveRecord;
  * @property string $bic
  *
  * @property Bill[] $bills
+ *
+ * @property string $itnIec
+ * @property string asShortString
+ * @property string asFullString
  */
 class Organization extends ActiveRecord
 {
@@ -115,5 +119,42 @@ class Organization extends ActiveRecord
     {
         return $this->hasMany(Bill::className(), ['payer_id' => 'id'])
             ->inverseOf('payer');
+    }
+
+    /**
+     * Gets string that contain ITN and IEC divided by slash or
+     * only ITN if IEC is empty
+     *
+     * @return string
+     */
+    public function getItnIec()
+    {
+        return implode('/', array_filter([$this->itn, $this->iec]));
+    }
+
+    /**
+     * Gets string that contain organization name, ITN and IEC
+     * divided by slash
+     *
+     * @return string
+     */
+    public function getAsShortString()
+    {
+        return implode(' ', [$this->name, $this->itnIec]);
+    }
+
+    /**
+     * Gets string that contain organization name, ITN and IEC
+     * divided by slash and organization address
+     *
+     * @return string
+     */
+    public function getAsFullString()
+    {
+        return vsprintf('%s, ИНН %s, %s', [
+            $this->name,
+            $this->itnIec,
+            $this->address
+        ]);
     }
 }

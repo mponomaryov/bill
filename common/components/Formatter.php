@@ -50,7 +50,8 @@ class Formatter extends \ yii\i18n\Formatter
 
         $options = [
             NumberFormatter::PADDING_POSITION => NumberFormatter::PAD_AFTER_PREFIX,
-            NumberFormatter::FORMAT_WIDTH => 5
+            NumberFormatter::FORMAT_WIDTH => 5,
+            NumberFormatter::GROUPING_USED => false,
         ];
         $textOptions = [
             NumberFormatter::PADDING_CHARACTER => '0',

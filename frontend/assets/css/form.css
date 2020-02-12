@@ -1,8 +1,12 @@
 .form {
+    color: #686868;
 }
 
 .form__fieldset {
     margin: 0;
+    color: red;
+    font-size: 21px;
+    font-weight: 300;
 }
 
 .form__group {
@@ -30,19 +34,30 @@
 .form__label {
     box-sizing: border-box;
     color: #686868;
+    font-size: 14px;
     font-weight: bold;
 }
 
 .form__input {
-    padding: 6px 12px;
     box-sizing: border-box;
+    padding: 6px 12px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    font-size: 14px;
+}
+
+.form__input:focus {
+    border-color: #50adda;
+}
+
+.form__input--border_purple {
+    border-color: #8888ff;
 }
 
 .form__info {
     display: none;
     margin: 0;
+    padding-top: 5px;
     font-size: 12px;
 }
 

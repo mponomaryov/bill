@@ -5,6 +5,7 @@
 
 .table__caption {
     padding-top: 40px;
+    color: #686868;
     font-size: 25px;
 }
 
@@ -27,6 +28,8 @@
 
 .table__cell {
     border: 1px solid black;
+    color: #686868;
+    font-size: 14px;
 }
 
 .table__cell--border_none {
@@ -39,6 +42,10 @@
 
 .table__cell--bottom-border_none {
     border-bottom: none;
+}
+
+.table__cell--align_center {
+    text-align: center;
 }
 
 .table__cell--align_right {

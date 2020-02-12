@@ -11,7 +11,8 @@ $this->title = 'Requisites';
 ?>
 
 <?php $this->beginBlock('table-caption'); ?>
-    Счет № 00017 от <?= date('Y') ?>
+    Счет № <?= Yii::$app->formatter->asBillNumber(rand(1, 65535)) ?>
+    от <?= date('d.m.Y') ?>
 <?php $this->endBlock(); ?>
 
 <hr class="line page__block">
@@ -104,7 +105,8 @@ $form = ActiveForm::begin([
     </thead>
     <tbody>
         <tr class="table__row">
-            <td class="table__cell">
+            <td class="table__cell
+                       table__cell--align_center">
                 1
             </td>
             <td class="table__cell">
@@ -117,7 +119,13 @@ $form = ActiveForm::begin([
                 шт.
             </td>
             <td colspan="2" class="table__cell">
-                <?= $form->field($model, 'quantity')->textInput([
+                <?= $form->field($model, 'quantity', [
+                    'template' => '{input}',
+                    'options' => [
+                        'tag' => false,
+                    ],
+                ])->textInput([
+                    'class' => 'form__input form__input--border_purple',
                     'type' => 'number',
                     'value' => 1,
                     'min' => 1,

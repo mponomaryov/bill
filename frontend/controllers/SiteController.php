@@ -3,6 +3,7 @@ namespace frontend\controllers;
 
 use Yii;
 use yii\web\Controller;
+use yii\web\ServerErrorHttpException;
 
 use frontend\models\forms\RequisitesForm;
 
@@ -24,7 +25,7 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays requisites form
+     * Displays requisites form or PDF document
      *
      * @return mixed
      */
@@ -34,17 +35,24 @@ class SiteController extends Controller
 
         $model = new RequisitesForm();
 
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            $bill = $model->createBill();
+        if ($model->load(Yii::$app->request->post())) {
+            try {
+                $bill = $model->createBill();
+            } catch (\Exception $e) {
+                throw new ServerErrorHttpException();
+            }
 
             if ($bill) {
                 Yii::$app->response->format = 'pdf';
-                return $this->render('pdf', ['model' => $bill]);
-            }
 
-            throw new \yii\web\ServerErrorHttpException;
+                return $this->render('pdf', [
+                    'model' => $bill
+                ]);
+            }
         }
 
-        return $this->render('index', ['model' => $model]);
+        return $this->render('index', [
+            'model' => $model,
+        ]);
     }
 }

@@ -7,7 +7,7 @@ use yii\validators\Validator;
 
 use common\models\Bill;
 use common\models\Organization;
-use common\models\BillItem;
+use common\models\Item;
 
 class ItnLengthValidator extends Validator
 {
@@ -98,49 +98,52 @@ class RequisitesForm extends Model
         ];
     }
 
+    public function fields()
+    {
+        return [
+            'name',
+            'address',
+            'itn',
+            'iec',
+            'current_account' => 'currentAccount',
+            'bank' => 'bankName',
+            'corresponding_account' => 'correspondingAccount',
+            'bic',
+        ];
+    }
+
     public function createBill()
     {
-        /* A minute of shitty code */
-
         if (!$this->validate()) {
             return;
         }
 
-        $organization = Organization::findOne([
-            'name' => $this->name,
-            'address' => $this->address,
-            'itn' => $this->itn,
-            'iec' => $this-> iec,
-            'current_account' => $this->currentAccount,
-            'bank' => $this->bankName,
-            'corresponding_account' => $this->correspondingAccount,
-            'bic' => $this->bic,
-        ]);
+        $thisAsArray = $this->toArray();
 
-        if (!$organization) {
-            $organization = new Organization();
-            
-            $organization->name = $this->name;
-            $organization->address = $this->address;
-            $organization->itn = $this->itn;
-            $organization->iec = $this->iec;
-            $organization->current_account = $this->currentAccount;
-            $organization->bank = $this->bankName;
-            $organization->corresponding_account = $this->correspondingAccount;
-            $organization->bic = $this->bic;
+        $transaction = Yii::$app->db->beginTransaction();
 
-            $organization->save();
+        try {
+            $organization = Organization::findOne($thisAsArray);
+
+            if (!$organization) {
+                $organization = new Organization();
+                $organization->attributes = $thisAsArray;
+                $organization->save();
+            }
+
+            $bill = new Bill();
+            $bill->setDefaultValues();
+            $bill->link('payer', $organization);
+            $bill->link('items', Item::findOne(['id' => 1]), [
+                'quantity' => $this->quantity,
+            ]);
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            throw $e;
         }
 
-        $bill = new Bill();
-        $bill->setDefaultValues();
-        $bill->link('payer', $organization);
+        $transaction->commit();
 
-        $stubBillItem = new BillItem();
-        $stubBillItem->item_id = 1;
-        $stubBillItem->quantity = $this->quantity;
-
-        $bill->link('billItems', $stubBillItem);
         $bill->refresh();
 
         return $bill;

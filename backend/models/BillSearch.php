@@ -4,13 +4,17 @@ namespace backend\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
-use common\models\Bill;
+use backend\models\Bill;
 
 /**
  * BillSearch represents the model behind the search form of `common\models\Bill`.
  */
 class BillSearch extends Bill
 {
+    public $payerName;
+    public $payerItn;
+    public $payerIec;
+
     /**
      * {@inheritdoc}
      */
@@ -18,7 +22,7 @@ class BillSearch extends Bill
     {
         return [
             [['id', 'payer_id', 'bill_number'], 'integer'],
-            [['created_at'], 'safe'],
+            [['payerName', 'payerItn', 'payerIec', 'created_at'], 'safe'],
         ];
     }
 
@@ -40,7 +44,7 @@ class BillSearch extends Bill
      */
     public function search($params)
     {
-        $query = Bill::find();
+        $query = Bill::find()->joinWith(['payer p']);
 
         // add conditions that should always apply here
 
@@ -58,11 +62,25 @@ class BillSearch extends Bill
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
-            'payer_id' => $this->payer_id,
             'bill_number' => $this->bill_number,
             'created_at' => $this->created_at,
-        ]);
+        ])->andFilterWhere(['like', 'p.name', $this->payerName])
+            ->andFilterWhere(['like', 'p.itn', $this->payerItn])
+            ->andFilterWhere(['like', 'p.iec', $this->payerIec]);
+
+        /*
+        if (!empty($this->payerName)) {
+            $query->andWhere(['like', 'p.name', $this->payerName]);
+        }
+
+        if (!empty($this->payerItn)) {
+            $query->andWhere(['like', 'p.itn', $this->payerItn]);
+        }
+
+        if (!empty($this->payerIec)) {
+            $query->andWhere(['like', 'p.iec', $this->payerIec]);
+        }
+        */
 
         return $dataProvider;
     }

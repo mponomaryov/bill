@@ -25,8 +25,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'payer_id',
+            //[
+            //    'attribute' => 'payer',
+            //    'value' => 'payer.asShortString',
+            //],
             'bill_number:billNumber',
+            'payerName',
+            'payerItn',
+            'payerIec',
             'created_at:date',
 
             [

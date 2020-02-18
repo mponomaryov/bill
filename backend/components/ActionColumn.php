@@ -56,4 +56,13 @@ class ActionColumn extends \yii\grid\ActionColumn
             };
        }
     }
+
+    protected function renderFilterCellContent()
+    {
+        if (!empty(Yii::$app->request->queryString)) {
+            return Html::a('Reset', ['index'], [
+                'class' => ['btn btn-primary'],
+            ]);
+        }
+    }
 }

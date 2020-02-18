@@ -52,6 +52,28 @@ class BillSearch extends Bill
             'query' => $query,
         ]);
 
+        $dataProvider->setSort([
+            'defaultOrder' => [
+                'bill_number' => SORT_DESC,
+            ],
+            'attributes' => [
+                'bill_number',
+                'created_at',
+                'payerName' => [
+                    'asc' => ['p.name' => SORT_ASC],
+                    'desc' => ['p.name' => SORT_DESC],
+                ],
+                'payerItn' => [
+                    'asc' => ['p.itn' => SORT_ASC],
+                    'desc' => ['p.itn' => SORT_DESC],
+                ],
+                'payerIec' => [
+                    'asc' => ['p.iec' => SORT_ASC],
+                    'desc' => ['p.iec' => SORT_DESC],
+                ],
+            ],
+        ]);
+
         $this->load($params);
 
         if (!$this->validate()) {
@@ -67,20 +89,6 @@ class BillSearch extends Bill
         ])->andFilterWhere(['like', 'p.name', $this->payerName])
             ->andFilterWhere(['like', 'p.itn', $this->payerItn])
             ->andFilterWhere(['like', 'p.iec', $this->payerIec]);
-
-        /*
-        if (!empty($this->payerName)) {
-            $query->andWhere(['like', 'p.name', $this->payerName]);
-        }
-
-        if (!empty($this->payerItn)) {
-            $query->andWhere(['like', 'p.itn', $this->payerItn]);
-        }
-
-        if (!empty($this->payerIec)) {
-            $query->andWhere(['like', 'p.iec', $this->payerIec]);
-        }
-        */
 
         return $dataProvider;
     }

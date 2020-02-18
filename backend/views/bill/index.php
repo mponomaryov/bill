@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\BillSearch */
@@ -25,15 +26,30 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            //[
-            //    'attribute' => 'payer',
-            //    'value' => 'payer.asShortString',
-            //],
             'bill_number:billNumber',
             'payerName',
             'payerItn',
             'payerIec',
-            'created_at:date',
+            [
+                'attribute' => 'created_at',
+                'format' => 'date',
+                'filter' => DatePicker::widget([
+                    'model' => $searchModel,
+                    'type' => DatePicker::TYPE_RANGE,
+                    'readonly' => true,
+                    'separator' => '-',
+                    'attribute' => 'startDate',
+                    'attribute2' => 'endDate',
+                    'options' => ['style' => 'width: 100px'],
+                    'options2' => ['style' => 'width: 100px'],
+                    'pluginOptions' => [
+                        'autoclose' => true,
+                        'keepEmptyValues' => true,
+                        'todayHighlight' => true,
+                        'orientation' => 'left bottom',
+                    ],
+                ]),
+            ],
 
             [
                 'class' => 'backend\components\ActionColumn',

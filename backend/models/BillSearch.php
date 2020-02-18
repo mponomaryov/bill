@@ -3,6 +3,7 @@ namespace backend\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use \DateTime;
 
 use backend\models\Bill;
 
@@ -14,15 +15,29 @@ class BillSearch extends Bill
     public $payerName;
     public $payerItn;
     public $payerIec;
+    public $startDate;
+    public $endDate;
 
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
+        $allDigitsPattern = '/^\d+$/';
+        $allDigitsMessage = '{attribute} should contain only digits';
+
         return [
-            [['id', 'payer_id', 'bill_number'], 'integer'],
-            [['payerName', 'payerItn', 'payerIec', 'created_at'], 'safe'],
+            ['bill_number', 'integer'],
+            ['payerName', 'string', 'max' => 100],
+            ['payerItn', 'string', 'max' => 12],
+            ['payerIec', 'string', 'max' => 9],
+            [
+                ['payerItn', 'payerIec'],
+                'match',
+                'pattern' => $allDigitsPattern,
+                'message' => $allDigitsMessage,
+            ],
+            ['startDate', 'endDate'], 'safe'],
         ];
     }
 
@@ -83,13 +98,24 @@ class BillSearch extends Bill
         }
 
         // grid filtering conditions
-        $query->andFilterWhere([
-            'bill_number' => $this->bill_number,
-            'created_at' => $this->created_at,
-        ])->andFilterWhere(['like', 'p.name', $this->payerName])
+        $query->andFilterWhere(['bill_number' => $this->bill_number])
+            ->andFilterWhere(['>=', 'created_at', $this->dateFormat($this->startDate)])
+            ->andFilterWhere(['<=', 'created_at', $this->dateFormat($this->endDate)])
+            ->andFilterWhere(['like', 'p.name', $this->payerName])
             ->andFilterWhere(['like', 'p.itn', $this->payerItn])
             ->andFilterWhere(['like', 'p.iec', $this->payerIec]);
 
         return $dataProvider;
+    }
+
+    protected function dateFormat($dateStr)
+    {
+        $date = DateTime::createFromFormat('d.m.Y', $dateStr);
+
+        if ($date === false) {
+            return;
+        }
+
+        return $date->format('Y-m-d');
     }
 }

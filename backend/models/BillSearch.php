@@ -37,7 +37,7 @@ class BillSearch extends Bill
                 'pattern' => $allDigitsPattern,
                 'message' => $allDigitsMessage,
             ],
-            ['startDate', 'endDate'], 'safe'],
+            [['startDate', 'endDate'], 'safe'],
         ];
     }
 

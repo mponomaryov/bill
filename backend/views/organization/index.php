@@ -29,10 +29,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'address',
             'itn',
             'iec',
-            //'current_account',
-            //'bank',
-            //'corresponding_account',
-            //'bic',
 
             ['class' => 'backend\components\ActionColumn'],
         ],

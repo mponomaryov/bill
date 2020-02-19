@@ -17,14 +17,18 @@ class OrganizationSearch extends Organization
      */
     public function rules()
     {
+        $allDigitsPattern = '/^\d+$/';
+        $allDigitsMessage = '{attribute} should contain only digits';
+
         return [
-            ['id', 'integer'],
+            [['name', 'address'], 'string', 'max' => 100],
+            ['itn', 'string', 'max' => 12],
+            ['iec', 'string', 'max' => 9],
             [
-                [
-                    'name', 'address', 'itn', 'iec', 'current_account',
-                    'bank', 'corresponding_account', 'bic'
-                ],
-                'safe'
+                ['itn', 'iec'],
+                'match',
+                'pattern' => $allDigitsPattern,
+                'message' => $allDigitsMessage,
             ],
         ];
     }
@@ -53,29 +57,29 @@ class OrganizationSearch extends Organization
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'name' => SORT_ASC,
+                ],
+            ],
         ]);
 
         $this->load($params);
 
         if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
+            /* uncomment the following line if you do not want to return
+             * any records when validation fails
+             */
+            $query->where('0 = 1');
+
             return $dataProvider;
         }
 
         // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-        ]);
-
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'address', $this->address])
             ->andFilterWhere(['like', 'itn', $this->itn])
-            ->andFilterWhere(['like', 'iec', $this->iec])
-            ->andFilterWhere(['like', 'current_account', $this->current_account])
-            ->andFilterWhere(['like', 'bank', $this->bank])
-            ->andFilterWhere(['like', 'corresponding_account', $this->corresponding_account])
-            ->andFilterWhere(['like', 'bic', $this->bic]);
+            ->andFilterWhere(['like', 'iec', $this->iec]);
 
         return $dataProvider;
     }

@@ -4,6 +4,8 @@ namespace common\models;
 use Yii;
 use yii\db\ActiveRecord;
 
+use common\models\RequisitesTrait;
+
 /**
  * This is the model class for table "{{%organization}}".
  *
@@ -25,6 +27,10 @@ use yii\db\ActiveRecord;
  */
 class Organization extends ActiveRecord
 {
+    use RequisitesTrait {
+        RequisitesTrait::rules as baseRules;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -38,76 +44,36 @@ class Organization extends ActiveRecord
      */
     public function rules()
     {
-        return [
+        $beforeRules = [
             [
                 [
-                    'name',
-                    'address',
-                    'itn',
-                    'current_account',
-                    'bank',
-                    'corresponding_account',
-                    'bic',
+                    'name', 'address', 'itn', 'current_account', 'bank',
+                    'corresponding_account', 'bic'
+                ],
+                'trim',
+            ],
+            [
+                [
+                    'name', 'address', 'itn', 'current_account', 'bank',
+                    'corresponding_account', 'bic'
                 ],
                 'required',
             ],
+        ];
+        $afterRules = [
             [
-                [
-                    'name',
-                    'address',
-                    'bank',
-                ],
-                'string',
-                'max' => 255,
-            ],
-            [
-                'itn',
-                'string',
-                'max' => 12,
-            ],
-            [
-                [
-                    'iec',
-                    'bic',
-                ],
-                'string',
-                'max' => 9,
-            ],
-            [
-                [
-                    'current_account',
-                    'corresponding_account',
-                ],
-                'string',
-                'max' => 20,
-            ],
-            [
-                [
-                    'itn',
-                    'iec',
-                ],
+                ['itn', 'iec'],
                 'unique',
                 'targetAttribute' => ['itn', 'iec'],
             ],
+            [
+                ['name', 'itn', 'iec'],
+                'unique',
+                'targetAttribute' => ['name', 'itn', 'iec'],
+            ],
         ];
-    }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'name' => 'Name',
-            'address' => 'Address',
-            'itn' => 'ITN',
-            'iec' => 'IEC',
-            'current_account' => 'Current Account',
-            'bank' => 'Bank',
-            'corresponding_account' => 'Corresponding Account',
-            'bic' => 'BIC',
-        ];
+        return array_merge($beforeRules, $this->baseRules(), $afterRules);
     }
 
     /**

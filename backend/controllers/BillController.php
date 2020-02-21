@@ -103,7 +103,15 @@ class BillController extends BaseController
     {
         $model = $this->findModel($id);
 
-        return '<h1>Nothing yet here</h1>';
+        $app = Yii::$app;
+
+        $app->response->format = 'pdf';
+        $app->layoutPath = '@common/views/layouts';
+        $this->viewPath = '@common/views/pdf';
+
+        return $this->render('index', [
+            'model' => $model,
+        ]);
     }
 
     /**

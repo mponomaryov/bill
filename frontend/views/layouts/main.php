@@ -7,13 +7,8 @@ use yii\helpers\Html;
 
 //use common\widgets\Alert;
 use frontend\assets\AppAsset;
-use frontend\assets\PdfAsset;
 
-if (Yii::$app->response->format === 'pdf') {
-    PdfAsset::register($this);
-} else {
-    AppAsset::register($this);
-}
+AppAsset::register($this);
 
 $this->beginPage();
 ?>

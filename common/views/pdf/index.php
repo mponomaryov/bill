@@ -122,16 +122,3 @@ $this->title = '';
         <?= StringHelper::mb_ucfirst($formatter->asPriceInWords($totalPrice)) ?>
     </p>
 </div>
-
-<div class="stamp-place
-            page__block">
-    <p class="stamp-place__field">
-        Индивидуальный предприниматель:
-    </p>
-    <p class="stamp-place__value">
-        Фамилия И.О.
-    </p>
-    <?= Html::img(Yii::getAlias('@web' . '/stamp.png'), [
-        'class' => 'stamp-place__stamp stamp-place__stamp--align_right',
-    ]) ?>
-</div>

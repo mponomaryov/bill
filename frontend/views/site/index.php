@@ -7,6 +7,10 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
+use common\assets\ImagesAsset;
+
+$imagesBundle = ImagesAsset::register($this);
+
 $this->title = 'Requisites';
 ?>
 
@@ -146,8 +150,8 @@ $form = ActiveForm::begin([
     <p class="stamp-place__value">
         Фамилия И.О.
     </p>
-    <?= Html::img(Yii::getAlias('@web' . '/stamp.png'), [
-        'class' => 'stamp-place__stamp stamp-place__stamp--align_right'
+    <?= Html::img($imagesBundle->baseUrl . '/stamp.png', [
+        'class' => 'stamp-place__stamp stamp-place__stamp--align_right',
     ]) ?>
 </div>
 

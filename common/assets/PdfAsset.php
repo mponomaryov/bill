@@ -1,5 +1,5 @@
 <?php
-namespace frontend\assets;
+namespace common\assets;
 
 use yii\web\AssetBundle;
 
@@ -8,18 +8,14 @@ use yii\web\AssetBundle;
  */
 class PdfAsset extends AssetBundle
 {
-    public $sourcePath = '@frontend/assets';
+    public $sourcePath = '@common/assets/pdf';
     public $publishOptions = [
         'forceCopy' => true,
     ];
     public $css = [
-        'css/page-pdf.css',
+        'css/page.css',
         'css/table.css',
         'css/text-block.css',
-        'css/stamp-place-pdf.css',
-    ];
-    public $js = [
-    ];
-    public $depends = [
+        'css/stamp-place.css',
     ];
 }

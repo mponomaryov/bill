@@ -31,8 +31,6 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $this->layout = 'index';
-
         $model = new RequisitesForm();
 
         if ($model->load(Yii::$app->request->post())) {
@@ -43,13 +41,19 @@ class SiteController extends Controller
             }
 
             if ($bill) {
-                Yii::$app->response->format = 'pdf';
+                $app = Yii::$app;
 
-                return $this->render('pdf', [
-                    'model' => $bill
+                $app->response->format = 'pdf';
+                $app->layoutPath = '@common/views/layouts';
+                $this->viewPath = '@common/views/pdf';
+
+                return $this->render('index', [
+                    'model' => $bill,
                 ]);
             }
         }
+
+        $this->layout = 'index';
 
         return $this->render('index', [
             'model' => $model,

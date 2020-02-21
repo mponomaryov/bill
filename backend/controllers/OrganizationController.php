@@ -2,6 +2,7 @@
 namespace backend\controllers;
 
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\web\NotFoundHttpException;
 
 use backend\components\BaseController;
@@ -37,13 +38,18 @@ class OrganizationController extends BaseController
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        $bills = new \yii\data\ActiveDataProvider([
+        $dataProvider = new ActiveDataProvider([
             'query' => $model->getBills(),
+            'sort' => [
+                'defaultOrder' => [
+                    'bill_number' => SORT_DESC,
+                ],
+            ],
         ]);
 
         return $this->render('view', [
             'model' => $model,
-            'bills' => $bills,
+            'dataProvider' => $dataProvider,
         ]);
     }
 

@@ -7,6 +7,7 @@ use yii\web\YiiAsset;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Organization */
+/* @var $dataProvider yii\data\ActiveDataProvider*/
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Organizations', 'url' => ['index']];
@@ -46,7 +47,7 @@ YiiAsset::register($this);
     ]) ?>
 
     <?= GridView::widget([
-        'dataProvider' => $bills,
+        'dataProvider' => $dataProvider,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 

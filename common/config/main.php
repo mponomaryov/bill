@@ -14,5 +14,17 @@ return [
             'class' => 'common\components\Formatter',
             'dateFormat' => 'dd.MM.yyyy',
         ],
+        'response' => [
+            'formatters' => [
+                'html' => [
+                    'class' => 'yii\web\HtmlResponseFormatter',
+                ],
+                'pdf' => [
+                    'class' => 'robregonm\pdf\PdfResponseFormatter',
+                    'marginLeft' => 15,
+                    'marginRight' => 10,
+                ],
+            ],
+        ],
     ],
 ];

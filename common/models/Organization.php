@@ -44,23 +44,7 @@ class Organization extends ActiveRecord
      */
     public function rules()
     {
-        $beforeRules = [
-            [
-                [
-                    'name', 'address', 'itn', 'current_account', 'bank',
-                    'corresponding_account', 'bic'
-                ],
-                'trim',
-            ],
-            [
-                [
-                    'name', 'address', 'itn', 'current_account', 'bank',
-                    'corresponding_account', 'bic'
-                ],
-                'required',
-            ],
-        ];
-        $afterRules = [
+        return array_merge($this->baseRules(), [
             [
                 ['itn', 'iec'],
                 'unique',
@@ -71,9 +55,7 @@ class Organization extends ActiveRecord
                 'unique',
                 'targetAttribute' => ['name', 'itn', 'iec'],
             ],
-        ];
-
-        return array_merge($beforeRules, $this->baseRules(), $afterRules);
+        ]);
     }
 
     /**

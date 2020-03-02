@@ -2,6 +2,7 @@
 namespace common\models;
 
 use Yii;
+use yii\helpers\Html;
 use yii\base\Model;
 
 use common\components\LengthsValidator;
@@ -23,17 +24,15 @@ trait RequisitesTrait
         $allDigitsMessage = '{attribute} should contain only digits';
 
         $length = LEGAL_ENTITY_ITN_LENGTH;
-        $formName = mb_strtolower($this->formName(), 'UTF-8');
-
         $isIecRequired = function ($model) use($length) {
             return mb_strlen($model->itn, 'UTF-8') === $length;
         };
+        $itnInputId = Html::getInputId($this, 'itn');
         $isIecRequiredClient = "function (attribute, value) {
-            return $('#{$formName}-itn').val().length === {$length};
+            return $('#{$itnInputId}').val().length === {$length};
         }";
 
         return [
-            /*
             [
                 [
                     'name', 'address', 'itn', 'iec', 'current_account',
@@ -48,7 +47,6 @@ trait RequisitesTrait
                 ],
                 'required',
             ],
-            */
             [
                 ['itn', 'current_account', 'corresponding_account', 'bic'],
                 'match',

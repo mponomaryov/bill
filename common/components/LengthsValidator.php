@@ -22,25 +22,41 @@ class LengthsValidator extends Validator
             );
         }
 
-        if (!is_array($this->validLengths)) {
-            $this->validLengths = array($this->validLengths);
-        }
+        $this->validLengths = is_array($this->validLengths)
+            ? array_unique($this->validLengths)
+            : array($this->validLengths);
 
-        $allIntegers = array_reduce(
+        sort($this->validLengths);
+
+        $isAllNonNegativeIntegers = array_reduce(
             $this->validLengths,
-            function ($result, $item) { return $result && is_int($item); },
+            function ($r, $i) { return $r && (is_int($i) && $i >= 0); },
             true
         );
 
-        if (!$allIntegers) {
+        if (!$isAllNonNegativeIntegers) {
             throw new InvalidConfigException(
-               'validLengths must be an integer or array of integers'
+                'validLengths must be a non-negative integer or '
+                . 'an array of non-negative integers'
             );
         }
 
-        $this->message = 'Length must be ' 
-            . implode(', ', $this->validLengths)
-            . ' symbols';
+        $this->message = 'Length must be ';
+
+        if (count($this->validLengths) > 1) {
+            $this->message .= implode(' ', [
+                implode(', ', array_slice($this->validLengths, 0, -1)),
+                'or',
+                end($this->validLengths),
+                'symbols',
+            ]);
+        } else {
+            $length = $this->validLengths[0];
+            $this->message .= implode(' ', [
+                $length,
+                ['symbol', ' symbols'][!$length || $length > 1],
+            ]);
+        }
     }
 
     public function validateAttribute($model, $attribute)

@@ -3,10 +3,13 @@ namespace backend\controllers;
 
 use Yii;
 use yii\web\NotFoundHttpException;
+use yii\web\ServerErrorHttpException;
 
 use backend\components\BaseController;
 use common\models\Bill;
+use backend\models\forms\BillForm;
 use backend\models\BillSearch;
+use backend\models\OrganizationSearch;
 
 /**
  * BillController implements the CRUD actions for Bill model.
@@ -48,14 +51,72 @@ class BillController extends BaseController
      */
     public function actionCreate()
     {
-        $model = new Bill();
+        $model = new BillForm([
+            'scenario' => BillForm::SCENARIO_EXIST_ORGANIZATION,
+        ]);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $request = Yii::$app->request;
+
+        if ($model->load($request->post())) {
+            try {
+                $bill = $model->save();
+            } catch (\Exception $e) {
+                throw new ServerErrorHttpException();
+            }
+
+            if ($bill) {
+                return $this->redirect(['view', 'id' => $bill->id]);
+            }
+        }
+
+        $searchModel = new OrganizationSearch();
+        $dataProvider = $searchModel->search($request->queryParams);
+        $dataProvider->pagination = [
+            'pageSizeLimit' => false,
+            'defaultPageSize' => 5,
+        ];
+
+        if ($request->isPjax) {
+            return $this->renderPartial('_organizationsGrid', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
         }
 
         return $this->render('create', [
             'model' => $model,
+            'isNewOrganization' => false,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
+     * Creates a new Bill model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionCreateNew()
+    {
+        $model = new BillForm([
+            'scenario' => BillForm::SCENARIO_NEW_ORGANIZATION,
+        ]);
+
+        if ($model->load(Yii::$app->request->post())) {
+            try {
+                $bill = $model->save();
+            } catch (\Exception $e) {
+                throw new ServerErrorHttpException();
+            }
+
+            if ($bill) {
+                return $this->redirect(['view', 'id' => $bill->id]);
+            }
+        }
+
+        return $this->render('create', [
+            'model' => $model,
+            'isNewOrganization' => true,
         ]);
     }
 

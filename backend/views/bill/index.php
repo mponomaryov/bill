@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\bootstrap\ButtonDropdown;
 use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
@@ -16,9 +17,23 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Bill', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= ButtonDropdown::widget([
+            'label' => 'Create Bill',
+            'options' => ['class' => 'btn btn-success'],
+            'dropdown' => [
+                'items' => [
+                    [
+                        'label' => 'With saved organization',
+                        'url' => 'create',
+                    ],
+                    [
+                        'label' => 'With new organization',
+                        'url' => 'create-new',
+                    ],
+                ],
+            ],
+        ]) ?>
     </p>
-
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -57,6 +72,5 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
-
 
 </div>

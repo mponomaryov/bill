@@ -2,7 +2,7 @@
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
-/* @var $model \frontend\models\forms\RequisitesForm */
+/* @var $model \frontend\models\forms\BillForm */
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
@@ -11,7 +11,7 @@ use common\assets\ImagesAsset;
 
 $imagesBundle = ImagesAsset::register($this);
 
-$this->title = 'Requisites';
+$this->title = 'Bill';
 ?>
 
 <?php $this->beginBlock('table-caption'); ?>
@@ -21,10 +21,7 @@ $this->title = 'Requisites';
 
 <hr class="line page__block">
 
-<?php
-$formId = 'requisites-form';
-$form = ActiveForm::begin([
-    'id' => $formId,
+<?php $form = ActiveForm::begin([
     'options' => ['class' => 'form page__block'],
     'fieldClass' => 'frontend\components\ActiveField',
     'successCssClass' => 'form__group--has-success',
@@ -64,15 +61,15 @@ $form = ActiveForm::begin([
             'maxlength' => true,
         ]) ?>
 
-        <?= $form->field($model, 'currentAccount')->textInput([
+        <?= $form->field($model, 'current_account')->textInput([
             'maxlength' => true,
         ]) ?>
 
-        <?= $form->field($model, 'bankName')->textInput([
+        <?= $form->field($model, 'bank')->textInput([
             'maxlength' => 255,
         ]) ?>
 
-        <?= $form->field($model, 'correspondingAccount')->textInput([
+        <?= $form->field($model, 'corresponding_account')->textInput([
             'maxlength' => true,
         ]) ?>
 
@@ -133,7 +130,7 @@ $form = ActiveForm::begin([
                     'type' => 'number',
                     'value' => 1,
                     'min' => 1,
-                    'form' => $formId,
+                    'form' => $form->id,
                 ])->label(false) ?>
             </td>
         </tr>
@@ -159,6 +156,6 @@ $form = ActiveForm::begin([
     <?= Html::submitButton('Сохранить и скачать', [
         'class' => 'button button--rounded',
         'name' => 'save-button',
-        'form' => $formId
+        'form' => $form->id,
     ]) ?>
 </div>

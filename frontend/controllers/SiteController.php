@@ -5,7 +5,7 @@ use Yii;
 use yii\web\Controller;
 use yii\web\ServerErrorHttpException;
 
-use frontend\models\forms\RequisitesForm;
+use frontend\models\forms\BillForm;
 
 /**
  * Site controller
@@ -25,24 +25,24 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays requisites form or PDF document
+     * Displays bill form or PDF document
      *
      * @return mixed
      */
     public function actionIndex()
     {
-        $model = new RequisitesForm();
+        $model = new BillForm();
 
-        if ($model->load(Yii::$app->request->post())) {
+        $app = Yii::$app;
+
+        if ($model->load($app->request->post())) {
             try {
-                $bill = $model->createBill();
+                $bill = $model->save();
             } catch (\Exception $e) {
                 throw new ServerErrorHttpException();
             }
 
             if ($bill) {
-                $app = Yii::$app;
-
                 $app->response->format = 'pdf';
                 $app->layoutPath = '@common/views/layouts';
                 $this->viewPath = '@common/views/pdf';

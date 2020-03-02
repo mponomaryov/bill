@@ -1,36 +1,14 @@
 <?php
 namespace backend\models\forms;
 
-use Yii;
-use yii\base\Model;
-
-use common\models\Bill;
-use common\models\Item;
 use common\models\Organization;
-use common\models\RequisitesTrait;
 
-class BillForm extends Model
+class BillForm extends \common\models\forms\BillForm
 {
     const SCENARIO_EXIST_ORGANIZATION = 'existOrganization';
     const SCENARIO_NEW_ORGANIZATION = 'newOrganization';
 
-    public $name;
-    public $address;
-    public $itn;
-    public $iec;
-    public $current_account;
-    public $bank;
-    public $corresponding_account;
-    public $bic;
-
     public $payer_id;
-
-    public $quantity;
-    
-    use RequisitesTrait {
-        RequisitesTrait::rules as baseRules;
-        RequisitesTrait::attributeLabels as baseAttributeLabels;
-    }
 
     public function scenarios()
     {
@@ -49,61 +27,40 @@ class BillForm extends Model
 
     public function rules()
     {
-        return array_merge($this->baseRules(), [
-            [['payer_id', 'quantity'], 'required'],
+        return array_merge(parent::rules(), [
+            [
+                ['itn', 'iec'],
+                'unique',
+                'targetClass' => Organization::className(),
+                'targetAttribute' => ['itn', 'iec'],
+            ],
+            [
+                ['name', 'itn', 'iec'],
+                'unique',
+                'targetClass' => Organization::className(),
+                'targetAttribute' => ['name', 'itn', 'iec'],
+            ],
+            ['payer_id', 'required'],
             [
                 'payer_id',
                 'exist',
                 'targetClass' => Organization::className(),
                 'targetAttribute' => ['payer_id' => 'id'],
             ],
-            ['quantity', 'integer', 'min' => 1],
-            ['quantity', 'default', 'value' => 1],
         ]);
     }
 
-    public function attributeLabels()
+    protected function findOrCreateOrganization()
     {
-        return array_merge($this->baseAttributeLabels(), [
-            'quantity' => 'Количество',
-        ]);
-    }
-
-    public function save()
-    {
-        if (!$this->validate()) {
-            return;
+        if ($this->scenario === self::SCENARIO_EXIST_ORGANIZATION) {
+            return Organization::findOne(['id' => $this->payer_id]);
         }
 
-        $transaction = Yii::$app->db->beginTransaction();
+        $organization = new Organization(
+            $this->getAttributes(null, ['payer_id', 'quantity'])
+        );
+        $organization->save(false);
 
-        try {
-            if ($this->scenario === self::SCENARIO_EXIST_ORGANIZATION) {
-                $organization = Organization::findOne([
-                    'id' => $this->payer_id,
-                ]);
-            } else {
-                $organization = new Organization(
-                    $this->getAttributes(null, ['payer_id', 'quantity'])
-                );
-                $organization->save(false);
-            }
-
-            $bill = new Bill();
-            $bill->setDefaultValues();
-            $bill->link('payer', $organization);
-            $bill->link('items', Item::findOne(['id' => 1]), [
-                'quantity' => $this->quantity,
-            ]);
-        } catch (\Exception $e) {
-            $transaction->rollBack();
-            throw $e;
-        }
-
-        $transaction->commit();
-
-        $bill->refresh();
-
-        return $bill;
+        return $organization;
     }
 }

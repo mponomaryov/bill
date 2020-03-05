@@ -1,11 +1,8 @@
 <?php
 namespace common\models;
 
-use Yii;
 use yii\db\ActiveRecord;
 use yii\db\Expression;
-
-use common\models\query\BillQuery;
 
 /**
  * This is the model class for table "{{%bill}}".
@@ -118,15 +115,6 @@ class Bill extends ActiveRecord
     {
         return $this->hasMany(Item::className(), ['id' => 'item_id'])
             ->viaTable('{{%bill_item}}', ['bill_id' => 'id']);
-    }
-
-    /**
-     * {@inheritdoc}
-     * @return \common\models\query\BillQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new BillQuery(get_called_class());
     }
 
     /**

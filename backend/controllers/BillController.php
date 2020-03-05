@@ -2,6 +2,7 @@
 namespace backend\controllers;
 
 use Yii;
+use yii\base\DynamicModel;
 use yii\web\NotFoundHttpException;
 use yii\web\ServerErrorHttpException;
 
@@ -131,12 +132,25 @@ class BillController extends BaseController
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        // Here we use a little of nails...
+        $billItem = $model->billItems[0];
+
+        $quantityModel = new DynamicModel(['quantity' => $billItem->quantity]);
+        $quantityModel->addRule('quantity', 'required')
+            ->addRule('quantity', 'integer');
+
+        if ($quantityModel->load(Yii::$app->request->post()) &&
+            $quantityModel->validate()) {
+
+            $billItem->quantity = $quantityModel->quantity;
+            $billItem->save(false);
+
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
             'model' => $model,
+            'quantityModel' => $quantityModel,
         ]);
     }
 

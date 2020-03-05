@@ -7,12 +7,6 @@ use yii\base\Model;
 
 use common\components\LengthsValidator;
 
-const SOLE_PROPRIETOR_ITN_LENGTH = 10;
-const LEGAL_ENTITY_ITN_LENGTH = 12;
-const IEC_LENGTH = 9;
-const BANK_ACCOUNT_LENGTH = 20;
-const BIC_LENGTH = 9;
-
 /**
  * Requisites trait
  */
@@ -20,11 +14,13 @@ trait RequisitesTrait
 {
     public function rules()
     {
+        $params = Yii::$app->params;
+
         $allDigits = '/^\d+$/';
         $allDigitsMessage = '{attribute} should contain only digits';
 
-        $length = LEGAL_ENTITY_ITN_LENGTH;
-        $isIecRequired = function ($model) use($length) {
+        $length = $params['legalEntityItnLength'];
+        $isIecRequired = function ($model) use ($length) {
             return mb_strlen($model->itn, 'UTF-8') === $length;
         };
         $itnInputId = Html::getInputId($this, 'itn');
@@ -56,21 +52,21 @@ trait RequisitesTrait
             [
                 ['current_account', 'corresponding_account'],
                 'string',
-                'min' => BANK_ACCOUNT_LENGTH,
-                'max' => BANK_ACCOUNT_LENGTH,
+                'min' => $params['bankAccountLength'],
+                'max' => $params['bankAccountLength'],
             ],
             [
                 'bic',
                 'string',
-                'min' => BIC_LENGTH,
-                'max' => BIC_LENGTH,
+                'min' => $params['bicLength'],
+                'max' => $params['bicLength'],
             ],
             [
                 'itn',
                 LengthsValidator::className(),
                 'validLengths' => [
-                    SOLE_PROPRIETOR_ITN_LENGTH,
-                    LEGAL_ENTITY_ITN_LENGTH,
+                    $params['soleProprietorItnLength'],
+                    $params['legalEntityItnLength'],
                 ],
             ],
             [
@@ -88,8 +84,8 @@ trait RequisitesTrait
             [
                 'iec',
                 'string',
-                'min' => IEC_LENGTH,
-                'max' => IEC_LENGTH
+                'min' => $params['iecLength'],
+                'max' => $params['iecLength'],
             ],
             ['iec', 'default', 'value' => null],
         ];
